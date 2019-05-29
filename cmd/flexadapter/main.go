@@ -23,7 +23,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/kubernetes-csi/drivers/pkg/flexadapter"
+	"github.com/kubernetes-csi/csi-driver-flex/pkg/flexadapter"
 )
 
 var (
