@@ -1,16 +1,58 @@
-# Kubernetes Template Project
+# CSI Flexadapter Driver
 
-The Kubernetes Template Project is a template for starting new projects in the GitHub organizations owned by Kubernetes. All Kubernetes projects, at minimum, must have the following files:
+This repository hosts the CSI Flexadapter driver and all of its build and
+dependent configuration files to deploy the driver.
 
-- a `README.md` outlining the project goals, sponsoring sig, and community contact information
-- an `OWNERS` with the project leads listed as approvers ([docs on `OWNERS` files][owners])
-- a `CONTRIBUTING.md` outlining how to contribute to the project
-- an unmodified copy of `code-of-conduct.md` from this repo, which outlines community behavior and the consequences of breaking the code
-- a `LICENSE` which must be Apache 2.0 for code projects, or [Creative Commons 4.0] for documentation repositories, without any custom content
-- a `SECURITY_CONTACTS` with the contact points for the Product Security Team 
-  to reach out to for triaging and handling of incoming issues. They must agree to abide by the
-  [Embargo Policy](https://github.com/kubernetes/sig-release/blob/master/security-release-process-documentation/security-release-process.md#embargo-policy) 
-  and will be removed and replaced if they violate that agreement.
+## Testing manually
+
+### Build the binary
+
+```
+make build-flexadapter
+```
+
+### Start Flexvolume adapter for simple nfs flexvolume driver
+
+```
+$ sudo ./bin/flexadapter --endpoint tcp://127.0.0.1:10000 --drivername simplenfs --driverpath ./examples/simplenfs-flexdriver/driver/nfs --nodeid CSINode -v=5
+```
+
+### Test using csc
+
+```
+GO111MODULE=off go get -u github.com/rexray/gocsi/csc
+```
+
+#### Get plugin info
+
+```
+$ csc identity plugin-info --endpoint tcp://127.0.0.1:10000
+"simplenfs"	"0.1.0"
+```
+
+#### NodePublish a volume
+
+```
+$ csc node publish --endpoint tcp://127.0.0.1:10000 --target-path /mnt/nfs --attrib server=a.b.c.d --attrib share=nfs_share nfstestvol
+nfstestvol
+```
+
+#### NodeUnpublish a volume
+
+```
+$ csc node unpublish --endpoint tcp://127.0.0.1:10000 --target-path /mnt/nfs nfstestvol
+nfstestvol
+```
+
+#### Get node information
+
+```
+$ csc node get-info --endpoint tcp://127.0.0.1:10000
+CSINode 0 (*csi.Topology)(nil)
+$ csc node get-capabilities
+--endpoint tcp://127.0.0.1:10000
+&{}
+```
 
 ## Community, discussion, contribution, and support
 
