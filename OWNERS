@@ -2,7 +2,11 @@
 
 approvers:
 - childsb
+- jsafrane
+- msau42
 - saad-ali
-reviews:
-- childsb
+reviewers:
+- cofyc
+- jsafrane
+- msau42
 - saad-ali
