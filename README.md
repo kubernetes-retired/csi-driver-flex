@@ -1,4 +1,6 @@
-# CSI Flexadapter Driver
+# ARCHIVED: CSI Flexadapter Driver
+
+This repository is no longer maintained and has been archived.
 
 This repository hosts the CSI Flexadapter driver and all of its build and
 dependent configuration files to deploy the driver.
